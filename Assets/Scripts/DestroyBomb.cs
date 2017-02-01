@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class DestroyBomb : MonoBehaviour {
 
+	public bool isTouchedGround;
+
 	// Use this for initialization
 	void Start () {
-
+		isTouchedGround = false;
 	}
 	
 	// Update is called once per frame
@@ -18,6 +21,7 @@ public class DestroyBomb : MonoBehaviour {
 		{
 			coll.gameObject.GetComponent<Bomb>().StartExplodeAnimation();
 			Debug.Log("Touched ground!");
+			isTouchedGround = true;
 		}
 
 	}

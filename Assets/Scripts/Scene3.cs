@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class Scene3 : MonoBehaviour {
 
+	enum GameStatus{
+		Title,
+		Playing,
+		Result
+	}
+
+	GameStatus currentGameStatus = GameStatus.Title;
+
 	[SerializeField]
 	Text counterText, scoreNum;
 
@@ -16,6 +24,8 @@ public class Scene3 : MonoBehaviour {
 	public bool isBoxPresent;
 
 	Ending ending;
+
+	DestroyBomb db;
 
 	Vector3 mousePosition, targetPosition;
 
@@ -31,6 +41,8 @@ public class Scene3 : MonoBehaviour {
 		instantiateBox();
 
 		ending = Camera.main.GetComponent<Ending>();
+
+		db = Camera.main.GetComponent<DestroyBomb>();
 	}
 	
 	// Update is called once per frame
@@ -45,6 +57,19 @@ public class Scene3 : MonoBehaviour {
 		targetPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 1f));
 
 		bombs.transform.position = targetPosition;
+
+		switch (currentGameStatus)
+		{
+			case GameStatus.Title:
+				
+				break;
+			case GameStatus.Playing:
+				
+				break;
+			case GameStatus.Result:
+				
+				break;
+		}
 
 		if (counter >= 1)
 		{
@@ -104,8 +129,16 @@ public class Scene3 : MonoBehaviour {
 		}
 		else
 		{
-			ending.gameObject.GetComponent<Ending>().FlashYouLose();
+			
+			if (db.gameObject.GetComponent<DestroyBomb>().isTouchedGround == false)
+			{
+				db.gameObject.GetComponent<DestroyBomb>().isTouchedGround = true;
+				ending.gameObject.GetComponent<Ending>().FlashYouLose();
+			}
+
 		}
+
+
 			
 	}
 

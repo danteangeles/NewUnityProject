@@ -35,13 +35,11 @@ public class Bomb : MonoBehaviour {
 
 	void StopMoving(){
 		GetComponent<Collider2D>().enabled = false;
-		//GetComponent<Rigidbody2D>().
 	}
 
 	public void StartExplodeAnimation(){
 		StopMoving();
 		var coroutine = StartCoroutine(ExplodeAnimation());
-		//StopCoroutine(coroutine);
 	}
 
 	IEnumerator ExplodeAnimation(){
@@ -51,12 +49,6 @@ public class Bomb : MonoBehaviour {
 			yield return new WaitForSeconds(0.1f);
 		}
 		Destroy(gameObject);
-	}
-
-	public void AddScore()
-	{
-		int sc = myDelegate(1);
-		Debug.Log("score: "+sc);
 	}
 
 	public void OnHitEnemy(int point){

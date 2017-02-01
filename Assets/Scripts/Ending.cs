@@ -12,8 +12,6 @@ public class Ending : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		isBlinkWinRunning = false;
-		//win = GetComponent<Text>();
-		//win.text = "";
 	}
 	
 	// Update is called once per frame
@@ -42,7 +40,9 @@ public class Ending : MonoBehaviour {
 	}
 
 	public IEnumerator BlinkLose(){
+		Debug.Log("before_loosing");
 		while(true){
+			Debug.Log("loosing");
 			win.text = "";
 			yield return new WaitForSeconds(0.3f);
 			win.text = "You Lose!!!";

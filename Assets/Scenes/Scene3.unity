@@ -469,6 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0f6410bd791ce46932b9267c9a4b9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTouchedGround: 0
 --- !u!212 &316574055
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -712,7 +713,6 @@ GameObject:
   - 224: {fileID: 1021871478}
   - 222: {fileID: 1021871481}
   - 114: {fileID: 1021871480}
-  - 114: {fileID: 1021871479}
   m_Layer: 5
   m_Name: TextCounter
   m_TagString: Untagged
@@ -738,23 +738,6 @@ RectTransform:
   m_AnchoredPosition: {x: -300, y: 450}
   m_SizeDelta: {x: 160, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1021871479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1021871477}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a4bb15e592a7aa41aa15672aef54d39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  counterText: {fileID: 1021871480}
-  scoreNum: {fileID: 0}
-  droppings: {fileID: 0}
-  ground: {fileID: 0}
-  box: {fileID: 0}
-  isBoxPresent: 0
 --- !u!114 &1021871480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,7 +941,6 @@ GameObject:
   - 224: {fileID: 1496713925}
   - 222: {fileID: 1496713927}
   - 114: {fileID: 1496713926}
-  - 114: {fileID: 1496713928}
   m_Layer: 5
   m_Name: Winner
   m_TagString: Untagged
@@ -1023,18 +1005,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1496713924}
---- !u!114 &1496713928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1496713924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3451fb9c4553dd4d98ff577a338afbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  win: {fileID: 1496713926}
 --- !u!1 &1726849726
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,6 +1019,7 @@ GameObject:
   - 81: {fileID: 1726849727}
   - 114: {fileID: 1726849732}
   - 114: {fileID: 1726849733}
+  - 114: {fileID: 1726849734}
   m_Layer: 5
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1137,7 +1108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   counterText: {fileID: 1021871480}
   scoreNum: {fileID: 129255786}
-  droppings: {fileID: 0}
+  bombs: {fileID: 1000011569460482, guid: ea76c3947f021db4ea1307290124cb8b, type: 2}
   ground: {fileID: 1000013135749128, guid: c7c5e6cc92ebf384bb861d6b5c6b21f0, type: 2}
   box: {fileID: 1000013210095424, guid: 86c71748ae52122478082b7926ff84ac, type: 2}
   isBoxPresent: 0
@@ -1153,6 +1124,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   win: {fileID: 1496713926}
+--- !u!114 &1726849734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1726849726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0f6410bd791ce46932b9267c9a4b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTouchedGround: 0
 --- !u!1 &1836622152
 GameObject:
   m_ObjectHideFlags: 0

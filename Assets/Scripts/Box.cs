@@ -28,7 +28,6 @@ public class Box : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "Bomb")
 		{
-			//coll.gameObject.GetComponent<Bomb>().AddScore();
 			coll.gameObject.GetComponent<Bomb>().OnHitEnemy(100);
 			Destroy(coll.gameObject);
 			Destroy(this.gameObject);
