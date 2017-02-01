@@ -9,6 +9,8 @@ TagManager:
   - ButtonC
   - ButtonGo
   - Canvas
+  - Bomb
+  - Box
   layers:
   - Default
   - TransparentFX
