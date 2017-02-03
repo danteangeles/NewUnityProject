@@ -2,50 +2,57 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Ending : MonoBehaviour {
+public class Ending : MonoBehaviour
+{
 
 	[SerializeField]
 	Text win;
 
-	private bool isBlinkWinRunning;
+	IEnumerator blinkEnumerator;
 
 	// Use this for initialization
-	void Start () {
-		isBlinkWinRunning = false;
+	void Start()
+	{
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 		
 	}
 
-	public void FlashYouWin() {
-		StartCoroutine(BlinkWin());
-		isBlinkWinRunning = true;
+	public void FlashStartMassage()
+	{
+		blinkEnumerator = BlinkTitleText("TAP TO START!!!"); 
+		StartCoroutine(blinkEnumerator);
 	}
 
-	public IEnumerator BlinkWin(){
-		while(true){
+	public void StopBlink()
+	{
+		if (blinkEnumerator != null)
+		{
+			StopCoroutine(blinkEnumerator);
 			win.text = "";
-			yield return new WaitForSeconds(0.3f);
-			win.text = "YOU WIN!!!";
-			yield return new WaitForSeconds(0.5f);
 		}
 	}
 
-	public void FlashYouLose() {
-		if (!isBlinkWinRunning){
-			StartCoroutine(BlinkLose());
-		}
+	public void FlashYouWin()
+	{
+		StartCoroutine(BlinkTitleText("YOU WIN!!!"));
 	}
 
-	public IEnumerator BlinkLose(){
-		Debug.Log("before_loosing");
-		while(true){
-			Debug.Log("loosing");
+	public void FlashYouLose()
+	{
+		StartCoroutine(BlinkTitleText("You Lose!!!"));
+	}
+
+	IEnumerator BlinkTitleText(string title)
+	{
+		while (true)
+		{
 			win.text = "";
 			yield return new WaitForSeconds(0.3f);
-			win.text = "You Lose!!!";
+			win.text = title;
 			yield return new WaitForSeconds(0.5f);
 		}
 	}

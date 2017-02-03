@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Box : MonoBehaviour {
+public class Box : MonoBehaviour
+{
 
 	[SerializeField]
 	GameObject boxes;
@@ -9,15 +10,19 @@ public class Box : MonoBehaviour {
 	[SerializeField]
 	Rigidbody2D rb2d;
 
+	int power;
+
 	// Use this for initialization
-	void Start () {
-		//this.GetComponent().velocity = Vector2();
+	void Start()
+	{
+		power = 3;
 		rb2d.GetComponent<Rigidbody2D>();
 	}
 
 	// Update is called once per frame
-	void Update () {
-		rb2d.transform.position = new Vector3(PingPong(Time.time*3,-3,3),rb2d.transform.position.y, rb2d.transform.position.z);
+	void Update()
+	{
+		rb2d.transform.position = new Vector3(PingPong(Time.time * 3, -3, 3), rb2d.transform.position.y, rb2d.transform.position.z);
 	}
 
 	float PingPong(float t, float minLength, float maxLength)
@@ -25,12 +30,27 @@ public class Box : MonoBehaviour {
 		return Mathf.PingPong(t, maxLength - minLength) + minLength;
 	}
 
-	void OnCollisionEnter2D(Collision2D coll) {
+	void OnCollisionEnter2D(Collision2D coll)
+	{
 		if (coll.gameObject.tag == "Bomb")
 		{
-			coll.gameObject.GetComponent<Bomb>().OnHitEnemy(100);
+			power--;
+
+			var bomb = coll.gameObject.GetComponent<Bomb>();
+
+			if (power == 0)
+			{
+				Destroy(this.gameObject);
+				const int BonusPoint = 300;
+				bomb.OnDestroyEnemy(BonusPoint);
+			}
+			else
+			{
+				const int point = 100;
+				bomb.OnHitEnemy(point);
+			}
+
 			Destroy(coll.gameObject);
-			Destroy(this.gameObject);
 			Debug.Log("Monster Hit!");
 		}
 

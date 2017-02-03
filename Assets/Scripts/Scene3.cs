@@ -3,9 +3,11 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Scene3 : MonoBehaviour {
+public class Scene3 : MonoBehaviour
+{
 
-	enum GameStatus{
+	enum GameStatus
+	{
 		Title,
 		Playing,
 		Result
@@ -21,17 +23,16 @@ public class Scene3 : MonoBehaviour {
 
 	private int counter, score;
 
-	public bool isBoxPresent;
-
 	Ending ending;
 
-	DestroyBomb db;
+	//NOTE:use abridgement name is no good. And DestroyBomb not need here because it is already attached at ground.
+	//DestroyBomb db;
 
 	Vector3 mousePosition, targetPosition;
 
 	// Use this for initialization
-	void Start () {
-		//Instantiate(ground, new Vector3(0, -4.2f, 1) , ground.transform.rotation);
+	void Start()
+	{
 		counter = 10;
 		counterText.text = counter.ToString();
 
@@ -41,115 +42,93 @@ public class Scene3 : MonoBehaviour {
 		instantiateBox();
 
 		ending = Camera.main.GetComponent<Ending>();
-
-		db = Camera.main.GetComponent<DestroyBomb>();
+		ending.FlashStartMassage();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-		if (!isBoxPresent){
-			instantiateBox();
-		}
-
-		mousePosition = Input.mousePosition;
-
-		targetPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 1f));
-
-		bombs.transform.position = targetPosition;
-
+	void Update()
+	{
 		switch (currentGameStatus)
 		{
 			case GameStatus.Title:
-				
+				if (Input.GetMouseButtonDown(0))
+				{
+					ending.StopBlink();
+					currentGameStatus = GameStatus.Playing;
+				}
 				break;
 			case GameStatus.Playing:
+				if (Input.GetMouseButtonDown(0) && counter > 0)
+				{
+					Debug.Log("Pressed left click.");
+
+					counter--;
+					counterText.text = counter.ToString();
+
+					var bomb = Instantiate(bombs, bombs.transform.position, bombs.transform.rotation) as GameObject;
+					mousePosition = Input.mousePosition;
+					targetPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 1f));
+					bomb.transform.position = targetPosition;
+
+					var bombComponent = bomb.GetComponent<Bomb>();
+					bombComponent.OnHit = (point) =>
+					{
+						score += point;
+						scoreNum.text = string.Format("{0}", score);
+					};
+
+					bombComponent.OnDestroy = (point) =>
+					{
+						score += point;
+						scoreNum.text = string.Format("{0}", point);
+						ending.gameObject.GetComponent<Ending>().FlashYouWin();
+						currentGameStatus = GameStatus.Result;
+						Debug.Log("Game Clear");
+					};
+
+
+					if (counter == 0)
+					{
+						bombComponent.OnFallDownGround = () =>
+						{
+							if (counter == 0)
+							{
+								ending.gameObject.GetComponent<Ending>().FlashYouLose();
+								currentGameStatus = GameStatus.Result;
+								Debug.Log("Game Lose");
+							}
+						};	
+					}
+				}
+				if (Input.GetMouseButtonDown(1))
+				{
+					Debug.Log("Pressed right click.");
+				}
+
+				if (Input.GetMouseButtonDown(2))
+				{
+					Debug.Log("Pressed middle click.");
+				}
 				
 				break;
 			case GameStatus.Result:
-				
+				if (Input.GetMouseButtonDown(0))
+				{
+					SceneManager.LoadScene("Scene3");
+				}
 				break;
 		}
-
-		if (counter >= 1)
-		{
-			if (Input.GetMouseButtonDown(0))
-			{
-				Debug.Log("Pressed left click.");
-
-				counter--;
-				counterText.text = counter.ToString();
-				var bomb = Instantiate(bombs, bombs.transform.position, bombs.transform.rotation) as GameObject;
-				var bombComponent = bomb.GetComponent<Bomb>();
-				bombComponent.OnHit = (point) =>
-				{
-					score += point;
-					scoreNum.text = string.Format("{0}", score);
-					if (score < 300)
-					{
-						isBoxPresent = false;
-					}
-					else
-					{
-						// call FlashWinner
-						ending.gameObject.GetComponent<Ending>().FlashYouWin();
-					}
-
-				};
-
-				bombComponent.OnDestroy = (point) =>
-				{
-					score += point;
-					scoreNum.text = string.Format("{0}", point);
-
-					Debug.Log("Game Clear");
-				};
-
-				bombComponent.OnHitBombEvent += (point) =>
-				{
-					score += point;
-					scoreNum.text = string.Format("{0}", point);
-
-					Debug.Log("Game Clear");
-				};
-						
-			
-
-
-			}
-			if (Input.GetMouseButtonDown(1))
-			{
-				Debug.Log("Pressed right click.");
-			}
-
-			if (Input.GetMouseButtonDown(2))
-			{
-				Debug.Log("Pressed middle click.");
-			}
-		}
-		else
-		{
-			
-			if (db.gameObject.GetComponent<DestroyBomb>().isTouchedGround == false)
-			{
-				db.gameObject.GetComponent<DestroyBomb>().isTouchedGround = true;
-				ending.gameObject.GetComponent<Ending>().FlashYouLose();
-			}
-
-		}
-
-
-			
 	}
 
-	public void backToPreviousScene(){
+	public void backToPreviousScene()
+	{
 		SceneManager.LoadScene("Scene2");
 	}
 
-	private void instantiateBox(){
-		Vector3 position = new Vector3(Random.Range(-2.5f,2.5f), -4.2f, 1f);
-		Instantiate(box,position,box.transform.rotation);
-		isBoxPresent = true;
+	private void instantiateBox()
+	{
+		Vector3 position = new Vector3(Random.Range(-2.5f, 2.5f), -4.2f, 1f);
+		Instantiate(box, position, box.transform.rotation);
 	}
 
 

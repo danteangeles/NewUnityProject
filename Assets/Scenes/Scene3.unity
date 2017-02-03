@@ -1111,7 +1111,6 @@ MonoBehaviour:
   bombs: {fileID: 1000011569460482, guid: ea76c3947f021db4ea1307290124cb8b, type: 2}
   ground: {fileID: 1000013135749128, guid: c7c5e6cc92ebf384bb861d6b5c6b21f0, type: 2}
   box: {fileID: 1000013210095424, guid: 86c71748ae52122478082b7926ff84ac, type: 2}
-  isBoxPresent: 0
 --- !u!114 &1726849733
 MonoBehaviour:
   m_ObjectHideFlags: 0
